@@ -47,12 +47,25 @@ class Currency(models.Model):
                 r['DateObj'] = datetime.datetime.strptime(r[key], "%m/%d/%Y").date()
 
                 existed_date = usd.rate_ids.filtered(lambda rate: rate.name == r['DateObj'])
+
+                # incase of BuyingRates is "some string" instead of "33.00"
+                try:
+                    rate = float(r['BuyingRates'])
+                except:
+                    print("String Cannot convert To Float")
+                    rate = 0
+                try:
+                    sell_rate = float(r['SellingRates'])
+                except:
+                    print("String Cannot convert To Float")
+                    sell_rate = 0
+
                 if not existed_date:
                     usd.rate_ids.create({
                         'name': r['DateObj'],
                         'currency_id': usd.id,
-                        'rate': r['BuyingRates'],
-                        'sell_rate': r['SellingRates']
+                        'rate': rate,
+                        'sell_rate': sell_rate
                     })
 
 
