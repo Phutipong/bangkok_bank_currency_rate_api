@@ -55,13 +55,13 @@ class Currency(models.Model):
 
                 # incase of BuyingRates is "some string" instead of "33.00"
                 try:
-                    rate = float(r['BuyingRates'])
+                    rate = float(r['BuyingRates'].strip())
                 except:
                     print("String Cannot convert To Float")
                     rate = 0
 
                 try:
-                    sell_rate = float(r['SellingRates'])
+                    sell_rate = float(r['SellingRates'].strip())
                 except:
                     print("String Cannot convert To Float")
                     sell_rate = 0
